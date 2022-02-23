@@ -33,12 +33,12 @@
  
 #include "stdio.h"
 #include "util/globalFuncs.h"
-#include <Eigen/LU>
+#include <eigen3/Eigen/LU>
 #include <algorithm>
 #include "IOWrapper/ImageDisplay.h"
 #include "util/globalCalib.h"
-#include <Eigen/SVD>
-#include <Eigen/Eigenvalues>
+#include <eigen3/Eigen/SVD>
+#include <eigen3/Eigen/Eigenvalues>
 #include "FullSystem/PixelSelector.h"
 #include "FullSystem/PixelSelector2.h"
 #include "FullSystem/ResidualProjections.h"
@@ -55,7 +55,7 @@
 #include "util/ImageAndExposure.h"
 
 #include <cmath>
-#include <cv.h>
+#include <opencv/cv.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 

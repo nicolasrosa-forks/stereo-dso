@@ -6,6 +6,7 @@ FIND_PATH(CHOLMOD_INCLUDE_DIR NAMES cholmod.h amd.h camd.h
     /opt/local/include/ufsparse
     /usr/local/include/ufsparse
     /sw/include/ufsparse
+    /home/nicolas/Documents/code/install/SuiteSparse/include
   )
 
 FIND_LIBRARY(CHOLMOD_LIBRARY NAMES cholmod
@@ -15,6 +16,7 @@ FIND_LIBRARY(CHOLMOD_LIBRARY NAMES cholmod
      /usr/local/lib
      /opt/local/lib
      /sw/lib
+     /home/nicolas/Documents/code/install/SuiteSparse/lib
    )
 
 FIND_LIBRARY(AMD_LIBRARY NAMES SHARED NAMES amd
@@ -110,14 +112,16 @@ FIND_PATH(CSPARSE_INCLUDE_DIR NAMES cs.h
   /opt/local/include/ufsparse
   /usr/local/include/ufsparse
   /sw/include/ufsparse
+  /home/nicolas/Documents/code/install/SuiteSparse/include
   )
 
-FIND_LIBRARY(CSPARSE_LIBRARY NAMES cxsparse
+FIND_LIBRARY(CSPARSE_LIBRARY NAMES csparse
   PATHS
   /usr/lib
   /usr/local/lib
   /opt/local/lib
   /sw/lib
+  /home/nicolas/Documents/code/install/SuiteSparse/lib
   )
 
 IF(CSPARSE_INCLUDE_DIR AND CSPARSE_LIBRARY)

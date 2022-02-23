@@ -555,8 +555,8 @@ int main( int argc, char** argv )
         struct timeval tv_end;
         gettimeofday(&tv_end, NULL);
 
-
         fullSystem->printResult("/home/jiatianwu/project/sdso/result.txt");
+        // fullSystem->printResult("/home/nicolas/github/nicolasrosa-forks/slam/stereo-dso/result.txt");
 
 
         int numFramesProcessed = abs(idsToPlay[0]-idsToPlay.back());

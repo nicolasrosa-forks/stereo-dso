@@ -175,6 +175,7 @@ void PangolinDSOViewer::run()
 
     // show ground truth
     std::string gtPath = "/home/jiatianwu/dso/05/05.txt";
+    // std::string gtPath = "/media/nicolas/nicolas_seagate/datasets/kitti/odometry/dataset/poses/00.txt";
     std::ifstream ReadFile(gtPath.c_str());
     std::string temp;
     std::string delim (" ");
