@@ -136,7 +136,7 @@ void CoarseTracker::makeK(CalibHessian* HCalib)
 
 void CoarseTracker::makeCoarseDepthForFirstFrame(FrameHessian* fh)
 {
-    // make coarse tracking templates for latstRef.
+    // make coarse tracking templates for lastRef.
     memset(idepth[0], 0, sizeof(float)*w[0]*h[0]);
     memset(weightSums[0], 0, sizeof(float)*w[0]*h[0]);
 
