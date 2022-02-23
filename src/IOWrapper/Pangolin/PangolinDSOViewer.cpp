@@ -48,9 +48,10 @@ PangolinDSOViewer::PangolinDSOViewer(int w, int h, bool startRunThread)
 	this->h = h;
 	running=true;
 
-
+    // Creates a lock object with no associated mutex.
+    // openImagesMutex is locked during the following snippet?
 	{
-		boost::unique_lock<boost::mutex> lk(openImagesMutex);
+		boost::unique_lock<boost::mutex> lk(openImagesMutex);  // Associates the boost::mutex openImagesMutex to the lock object 
 		internalVideoImg = new MinimalImageB3(w,h);
 		internalKFImg = new MinimalImageB3(w,h);
 		internalResImg = new MinimalImageB3(w,h);
@@ -63,7 +64,6 @@ PangolinDSOViewer::PangolinDSOViewer(int w, int h, bool startRunThread)
 		internalKFImg->setBlack();
 		internalResImg->setBlack();
 	}
-
 
 	{
 		currentCam = new KeyFrameDisplay();
@@ -107,16 +107,16 @@ void PangolinDSOViewer::run()
 
 	// 4 images
 	pangolin::View& d_kfDepth = pangolin::Display("imgKFDepth")
-	    .SetAspect(w/(float)h);
+        .SetAspect(w/(float)h);
 
 	pangolin::View& d_video_Right = pangolin::Display("imgKFDepth_Right")
-	    .SetAspect(w/(float)h);
+        .SetAspect(w/(float)h);
 
 	pangolin::View& d_video = pangolin::Display("imgVideo")
-	    .SetAspect(w/(float)h);
+        .SetAspect(w/(float)h);
 
 	pangolin::View& d_residual = pangolin::Display("imgResidual")
-	    .SetAspect(w/(float)h);
+        .SetAspect(w/(float)h);
 
 	pangolin::GlTexture texKFDepth(w,h,GL_RGB,false,0,GL_RGB,GL_UNSIGNED_BYTE);
 	pangolin::GlTexture texVideo(w,h,GL_RGB,false,0,GL_RGB,GL_UNSIGNED_BYTE);
@@ -125,12 +125,12 @@ void PangolinDSOViewer::run()
 
 
     pangolin::CreateDisplay()
-		  .SetBounds(0.0, 0.3, pangolin::Attach::Pix(UI_WIDTH), 1.0)
-		  .SetLayout(pangolin::LayoutEqual)
-		  .AddDisplay(d_kfDepth)
-		  .AddDisplay(d_video)
-		  .AddDisplay(d_video_Right)
-		  .AddDisplay(d_residual);
+        .SetBounds(0.0, 0.3, pangolin::Attach::Pix(UI_WIDTH), 1.0)
+		.SetLayout(pangolin::LayoutEqual)
+		.AddDisplay(d_kfDepth)
+		.AddDisplay(d_video)
+		.AddDisplay(d_video_Right)
+		.AddDisplay(d_residual);
 
 	// parameter reconfigure gui
 	pangolin::CreatePanel("ui").SetBounds(0.0, 1.0, 0.0, pangolin::Attach::Pix(UI_WIDTH));
@@ -245,11 +245,11 @@ void PangolinDSOViewer::run()
 
 		openImagesMutex.lock();
 		if(videoImgChanged) {
-		  texVideo.Upload(internalVideoImg->data,GL_BGR,GL_UNSIGNED_BYTE);
-		  texVideo_Right.Upload(internalVideoImg_Right->data,GL_BGR,GL_UNSIGNED_BYTE);
+            texVideo.Upload(internalVideoImg->data,GL_BGR,GL_UNSIGNED_BYTE);
+            texVideo_Right.Upload(internalVideoImg_Right->data,GL_BGR,GL_UNSIGNED_BYTE);
 		}
 		if(kfImgChanged) {
-		  texKFDepth.Upload(internalKFImg->data,GL_BGR,GL_UNSIGNED_BYTE);  
+            texKFDepth.Upload(internalKFImg->data,GL_BGR,GL_UNSIGNED_BYTE);  
 		}
 		if(resImgChanged) 		texResidual.Upload(internalResImg->data,GL_BGR,GL_UNSIGNED_BYTE);
 		videoImgChanged=kfImgChanged=resImgChanged=false;
@@ -302,14 +302,14 @@ void PangolinDSOViewer::run()
 
 
 	    // update parameters
-	    this->settings_pointCloudMode = settings_pointCloudMode.Get();
+        this->settings_pointCloudMode = settings_pointCloudMode.Get();
 
-	    this->settings_showActiveConstraints = settings_showActiveConstraints.Get();
-	    this->settings_showAllConstraints = settings_showAllConstraints.Get();
-	    this->settings_showCurrentCamera = settings_showCurrentCamera.Get();
-	    this->settings_showKFCameras = settings_showKFCameras.Get();
-	    this->settings_showTrajectory = settings_showTrajectory.Get();
-	    this->settings_showFullTrajectory = settings_showFullTrajectory.Get();
+        this->settings_showActiveConstraints = settings_showActiveConstraints.Get();
+        this->settings_showAllConstraints = settings_showAllConstraints.Get();
+        this->settings_showCurrentCamera = settings_showCurrentCamera.Get();
+        this->settings_showKFCameras = settings_showKFCameras.Get();
+        this->settings_showTrajectory = settings_showTrajectory.Get();
+        this->settings_showFullTrajectory = settings_showFullTrajectory.Get();
 
 		setting_render_display3D = settings_show3D.Get();
 		setting_render_displayDepth = settings_showLiveDepth.Get();
@@ -321,32 +321,32 @@ void PangolinDSOViewer::run()
 		setting_render_displayCoarseTrackingFull = settings_showCoarseTracking.Get();
 
 
-	    this->settings_absVarTH = settings_absVarTH.Get();
-	    this->settings_scaledVarTH = settings_scaledVarTH.Get();
-	    this->settings_minRelBS = settings_minRelBS.Get();
-	    this->settings_sparsity = settings_sparsity.Get();
+        this->settings_absVarTH = settings_absVarTH.Get();
+        this->settings_scaledVarTH = settings_scaledVarTH.Get();
+        this->settings_minRelBS = settings_minRelBS.Get();
+        this->settings_sparsity = settings_sparsity.Get();
 
 		//====================TO DO : I set here.. not flexible===================
-	    setting_desiredPointDensity = settings_nPts.Get();
-	    setting_desiredImmatureDensity = settings_nCandidates.Get();
+        setting_desiredPointDensity = settings_nPts.Get();
+        setting_desiredImmatureDensity = settings_nCandidates.Get();
 
-	    setting_maxFrames = settings_nMaxFrames.Get();
-	    setting_kfGlobalWeight = settings_kfFrequency.Get();
-	    setting_minGradHistAdd = settings_gradHistAdd.Get();
+        setting_maxFrames = settings_nMaxFrames.Get();
+        setting_kfGlobalWeight = settings_kfFrequency.Get();
+        setting_minGradHistAdd = settings_gradHistAdd.Get();
 
 
-	    if(settings_resetButton.Get())
-	    {
-	    	printf("RESET!\n");
-	    	settings_resetButton.Reset();
-	    	setting_fullResetRequested = true;
-	    }
+        if(settings_resetButton.Get())
+        {
+            printf("RESET!\n");
+            settings_resetButton.Reset();
+            setting_fullResetRequested = true;
+        }
 
 		// Swap frames and Process Events
 		pangolin::FinishFrame();
 
 
-	    if(needReset) reset_internal();
+        if(needReset) reset_internal();
 	}
 
 

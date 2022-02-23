@@ -59,6 +59,7 @@ set(dso_SOURCE_FILES
 include_directories(
   ${PROJECT_SOURCE_DIR}/src
   ${PROJECT_SOURCE_DIR}/thirdparty/Sophus
+  # /home/nicolas/Documents/code/install/Sophus
   ${EIGEN3_INCLUDE_DIR}
 ) 
 

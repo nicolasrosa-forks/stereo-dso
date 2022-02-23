@@ -85,14 +85,16 @@ void my_exit_handler(int s)
 
 void exitThread()
 {
-	struct sigaction sigIntHandler;
-	sigIntHandler.sa_handler = my_exit_handler;
-	sigemptyset(&sigIntHandler.sa_mask);
-	sigIntHandler.sa_flags = 0;
-	sigaction(SIGINT, &sigIntHandler, NULL);
+	struct sigaction sigIntHandler;              // Signal declaration
+	
+    sigIntHandler.sa_handler = my_exit_handler;  // Callback fn association
+    sigemptyset(&sigIntHandler.sa_mask);         // Clear all signals from SET. sa_mask:
+    sigIntHandler.sa_flags = 0;
+	
+    sigaction(SIGINT, &sigIntHandler, NULL);     // my_exit_handler has int value as input and returns nothing.
 
 	firstRosSpin=true;
-	while(true) pause();
+	while(true) pause();                         // Standby: Suspend the process until a signal arrives (Crtl + C)
 }
 
 void settingsDefault(int preset)
@@ -383,17 +385,15 @@ int main( int argc, char** argv )
 	IOWrap::PangolinDSOViewer* viewer = 0;
 	if(!disableAllDisplay)
     {
-        viewer = new IOWrap::PangolinDSOViewer(wG[0],hG[0], false);
+        viewer = new IOWrap::PangolinDSOViewer(wG[0],hG[0], false);  // Declared PangolinDSOViewer, but didn't start it.
         fullSystem->outputWrapper.push_back(viewer);
     }
-
-
 
     if(useSampleOutput)
         fullSystem->outputWrapper.push_back(new IOWrap::SampleOutputWrapper());
 
     // to make MacOS happy: run this in dedicated thread -- and use this one to run the GUI.
-    std::thread runthread([&]() {
+    std::thread run_thread([&]() {
         std::vector<int> idsToPlay;				// left images
         std::vector<double> timesToPlayAt;
 
@@ -441,9 +441,9 @@ int main( int argc, char** argv )
             printf("LOADING ALL IMAGES!\n");
             for(int ii=0;ii<(int)idsToPlay.size(); ii++)
             {
-			  int i = idsToPlay[ii];
-			  preloadedImagesLeft.push_back(reader->getImage(i));
-			  preloadedImagesRight.push_back(reader_right->getImage(i));
+                int i = idsToPlay[ii];
+                preloadedImagesLeft.push_back(reader->getImage(i));
+                preloadedImagesRight.push_back(reader_right->getImage(i));
             }
         }
 
@@ -469,12 +469,12 @@ int main( int argc, char** argv )
             ImageAndExposure* img_left;
 			ImageAndExposure* img_right;
 			if(preload){
-			  img_left = preloadedImagesLeft[ii];
-			  img_right = preloadedImagesRight[ii];
+                img_left = preloadedImagesLeft[ii];
+                img_right = preloadedImagesRight[ii];
 			}
 			else{
-			  img_left = reader->getImage(i);
-			  img_right = reader_right->getImage(i);
+                img_left = reader->getImage(i);
+                img_right = reader_right->getImage(i);
 			}
 
             bool skipFrame=false;
@@ -516,7 +516,7 @@ int main( int argc, char** argv )
             }
 
             delete img_left;
-	        delete img_right;
+            delete img_right;
 
 			// initializer fail
             if(fullSystem->initFailed || setting_fullResetRequested)
@@ -581,18 +581,18 @@ int main( int argc, char** argv )
             std::ofstream tmlog;
             tmlog.open("logs/time.txt", std::ios::trunc | std::ios::out);
             tmlog << 1000.0f*(ended-started)/(float)(CLOCKS_PER_SEC*reader->getNumImages()) << " "
-                  << ((tv_end.tv_sec-tv_start.tv_sec)*1000.0f + (tv_end.tv_usec-tv_start.tv_usec)/1000.0f) / (float)reader->getNumImages() << "\n";
+                << ((tv_end.tv_sec-tv_start.tv_sec)*1000.0f + (tv_end.tv_usec-tv_start.tv_usec)/1000.0f) / (float)reader->getNumImages() << "\n";
             tmlog.flush();
             tmlog.close();
         }
 
-    });
+    });  // closes run_thread
 
 
     if(viewer != 0)
         viewer->run();
 
-    runthread.join();
+    run_thread.join();
 
 	for(IOWrap::Output3DWrapper* ow : fullSystem->outputWrapper)
 	{

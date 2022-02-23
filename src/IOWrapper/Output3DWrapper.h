@@ -120,7 +120,7 @@ public:
         /*  Usage:
          *  Called once after each new Keyframe is inserted & optimized.
          *  [connectivity] contains for each frame-frame pair the number of [0] active residuals in between them,
-         *  and [1] the number of marginalized reisduals between them.
+         *  and [1] the number of marginalized residuals between them.
          *  frame-frame pairs are encoded as HASH_IDX = [(int)hostFrameKFID << 32 + (int)targetFrameKFID].
          *  the [***frameKFID] used for hashing correspond to the [FrameHessian]->frameID.
          *

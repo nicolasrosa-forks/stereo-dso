@@ -33,12 +33,12 @@
  
 #include "stdio.h"
 #include "util/globalFuncs.h"
-#include <Eigen/LU>
+#include <eigen3/Eigen/LU>
 #include <algorithm>
 #include "IOWrapper/ImageDisplay.h"
 #include "util/globalCalib.h"
-#include <Eigen/SVD>
-#include <Eigen/Eigenvalues>
+#include <eigen3/Eigen/SVD>
+#include <eigen3/Eigen/Eigenvalues>
 
 #include "FullSystem/ResidualProjections.h"
 #include "OptimizationBackend/EnergyFunctional.h"

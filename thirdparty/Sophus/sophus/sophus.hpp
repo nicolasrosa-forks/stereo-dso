@@ -33,8 +33,8 @@ namespace std {
 }
 #endif
 
-#include <Eigen/Eigen>
-#include <Eigen/Geometry>
+#include <eigen3/Eigen/Eigen>
+#include <eigen3/Eigen/Geometry>
 
 namespace Sophus {
 using namespace Eigen;

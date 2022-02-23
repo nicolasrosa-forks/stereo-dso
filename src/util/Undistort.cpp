@@ -28,7 +28,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <Eigen/Core>
+#include <eigen3/Eigen/Core>
 #include <iterator>
 #include "util/settings.h"
 #include "util/globalFuncs.h"
@@ -790,9 +790,9 @@ void Undistort::readFromFile(const char* configFileName, int nPars, std::string 
     if(parsOrg[2] < 1 && parsOrg[3] < 1)
     {
         printf("\n\nFound fx=%f, fy=%f, cx=%f, cy=%f.\n I'm assuming this is the \"relative\" calibration file format,"
-               "and will rescale this by image width / height to fx=%f, fy=%f, cx=%f, cy=%f.\n\n",
-               parsOrg[0], parsOrg[1], parsOrg[2], parsOrg[3],
-               parsOrg[0] * wOrg, parsOrg[1] * hOrg, parsOrg[2] * wOrg - 0.5, parsOrg[3] * hOrg - 0.5 );
+                "and will rescale this by image width / height to fx=%f, fy=%f, cx=%f, cy=%f.\n\n",
+                parsOrg[0], parsOrg[1], parsOrg[2], parsOrg[3],
+                parsOrg[0] * wOrg, parsOrg[1] * hOrg, parsOrg[2] * wOrg - 0.5, parsOrg[3] * hOrg - 0.5 );
 
         // rescale and substract 0.5 offset.
         // the 0.5 is because I'm assuming the calibration is given such that the pixel at (0,0)
@@ -900,7 +900,7 @@ void Undistort::readFromFile(const char* configFileName, int nPars, std::string 
         if(outputCalibration[2] > 1 || outputCalibration[3] > 1)
         {
             printf("\n\n\nWARNING: given output calibration (%f %f %f %f) seems wrong. It needs to be relative to image width / height!\n\n\n",
-                   outputCalibration[0],outputCalibration[1],outputCalibration[2],outputCalibration[3]);
+                    outputCalibration[0],outputCalibration[1],outputCalibration[2],outputCalibration[3]);
         }
 
 
@@ -1171,29 +1171,29 @@ void UndistortKB::distortCoordinates(float* in_x, float* in_y, float* out_x, flo
 		float y = in_y[i];
 
 		// RADTAN
-		float ix = (x - ocx) / ofx;
+        float ix = (x - ocx) / ofx;
 		float iy = (y - ocy) / ofy;
 
-	    const float Xsq_plus_Ysq = ix*ix + iy*iy;
-	    const float sqrt_Xsq_Ysq = sqrtf(Xsq_plus_Ysq);
-	    const float theta = atan2f( sqrt_Xsq_Ysq, 1 );
-	    const float theta2 = theta*theta;
-	    const float theta3 = theta2*theta;
-	    const float theta5 = theta3*theta2;
-	    const float theta7 = theta5*theta2;
-	    const float theta9 = theta7*theta2;
-	    const float r = theta + k0*theta3 + k1*theta5 + k2*theta7 + k3*theta9;
+        const float Xsq_plus_Ysq = ix*ix + iy*iy;
+        const float sqrt_Xsq_Ysq = sqrtf(Xsq_plus_Ysq);
+        const float theta = atan2f( sqrt_Xsq_Ysq, 1 );
+        const float theta2 = theta*theta;
+        const float theta3 = theta2*theta;
+        const float theta5 = theta3*theta2;
+        const float theta7 = theta5*theta2;
+        const float theta9 = theta7*theta2;
+        const float r = theta + k0*theta3 + k1*theta5 + k2*theta7 + k3*theta9;
 
-	    if(sqrt_Xsq_Ysq < 1e-6)
-	    {
-	    	out_x[i] = fx * ix + cx;
-	    	out_y[i] = fy * iy + cy;
-	    }
-	    else
-	    {
-	    	out_x[i] = (r / sqrt_Xsq_Ysq) * fx * ix + cx;
-	    	out_y[i] = (r / sqrt_Xsq_Ysq) * fy * iy + cy;
-	    }
+        if(sqrt_Xsq_Ysq < 1e-6)
+        {
+            out_x[i] = fx * ix + cx;
+            out_y[i] = fy * iy + cy;
+        }
+        else
+        {
+            out_x[i] = (r / sqrt_Xsq_Ysq) * fx * ix + cx;
+            out_y[i] = (r / sqrt_Xsq_Ysq) * fy * iy + cy;
+        }
 	}
 }
 

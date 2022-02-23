@@ -27,7 +27,7 @@
 #include "util/ImageAndExposure.h"
 #include "util/MinimalImage.h"
 #include "util/NumType.h"
-#include "Eigen/Core"
+#include "eigen3/Eigen/Core"
 
 namespace dso
 {
